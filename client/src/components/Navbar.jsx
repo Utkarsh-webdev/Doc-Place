@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { assets } from "../assets/assets_frontend/assets";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -5,157 +6,218 @@ import { NavLink, useNavigate } from "react-router-dom";
 const Navbar = () => {
   const navigate = useNavigate();
 
-  // For testing
   const [token, setToken] = useState(true);
+  const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <div className="flex items-center justify-between py-4 mb-5 border-b border-gray-200 bg-white sticky top-0 z-50">
-      {/* Logo */}
-      <img
-        src={assets.logo}
-        alt="Logo"
-        className="w-44 cursor-pointer"
-        onClick={() => navigate("/")}
-      />
+    <>
+      <div className="flex items-center justify-between py-4 mb-5 border-b border-gray-200 bg-white sticky top-0 z-50">
 
-      {/* Navigation */}
-      <ul className="hidden md:flex items-center gap-8 font-medium">
-        <NavLink to="/">
-          {({ isActive }) => (
-            <div className="flex flex-col items-center gap-1 group">
-              <p
-                className={
-                  isActive ? "text-black" : "text-gray-600 hover:text-black"
-                }
-              >
-                HOME
-              </p>
+        {/* Logo */}
+        <img
+          src={assets.logo}
+          alt="Logo"
+          className="w-44 cursor-pointer"
+          onClick={() => navigate("/")}
+        />
 
-              <div
-                className={`h-[2px] bg-blue-500 rounded-full transition-all duration-300 ${
-                  isActive ? "w-full" : "w-0 group-hover:w-full"
-                }`}
-              />
-            </div>
-          )}
-        </NavLink>
-
-        <NavLink to="/doctors">
-          {({ isActive }) => (
-            <div className="flex flex-col items-center gap-1 group">
-              <p
-                className={
-                  isActive ? "text-black" : "text-gray-600 hover:text-black"
-                }
-              >
-                ALL DOCTORS
-              </p>
-
-              <div
-                className={`h-[2px] bg-blue-500 rounded-full transition-all duration-300 ${
-                  isActive ? "w-full" : "w-0 group-hover:w-full"
-                }`}
-              />
-            </div>
-          )}
-        </NavLink>
-
-        <NavLink to="/about">
-          {({ isActive }) => (
-            <div className="flex flex-col items-center gap-1 group">
-              <p
-                className={
-                  isActive ? "text-black" : "text-gray-600 hover:text-black"
-                }
-              >
-                ABOUT
-              </p>
-
-              <div
-                className={`h-[2px] bg-blue-500 rounded-full transition-all duration-300 ${
-                  isActive ? "w-full" : "w-0 group-hover:w-full"
-                }`}
-              />
-            </div>
-          )}
-        </NavLink>
-
-        <NavLink to="/contact">
-          {({ isActive }) => (
-            <div className="flex flex-col items-center gap-1 group">
-              <p
-                className={
-                  isActive ? "text-black" : "text-gray-600 hover:text-black"
-                }
-              >
-                CONTACT
-              </p>
-
-              <div
-                className={`h-[2px] bg-blue-500 rounded-full transition-all duration-300 ${
-                  isActive ? "w-full" : "w-0 group-hover:w-full"
-                }`}
-              />
-            </div>
-          )}
-        </NavLink>
-      </ul>
-
-      {/* Right Side */}
-      <div className="flex items-center gap-4">
-        {token ? (
-          <div className="relative group cursor-pointer">
-            <div className="flex items-center gap-2">
-              <img
-                className="w-8 rounded-full"
-                src={assets.profile_pic}
-                alt="Profile"
-              />
-
-              <img
-                className="w-2.5"
-                src={assets.dropdown_icon}
-                alt="Dropdown"
-              />
-            </div>
-
-            {/* Dropdown */}
-            <div className="absolute right-0 top-8 pt-4 hidden group-hover:block z-20">
-              <div className="min-w-48 bg-white rounded-xl shadow-lg border border-gray-100 flex flex-col gap-3 p-4">
-                <p
-                  onClick={() => navigate("/my-profile")}
-                  className="cursor-pointer hover:text-blue-500"
-                >
-                  My Profile
+        {/* Desktop Navigation */}
+        <ul className="hidden md:flex items-center gap-8 font-medium">
+          <NavLink to="/">
+            {({ isActive }) => (
+              <div className="flex flex-col items-center gap-1 group">
+                <p className={isActive ? "text-black" : "text-gray-600 hover:text-black"}>
+                  HOME
                 </p>
+                <div
+                  className={`h-[2px] bg-blue-500 rounded-full transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </div>
+            )}
+          </NavLink>
 
-                <p
-                  onClick={() => navigate("/my-appointments")}
-                  className="cursor-pointer hover:text-blue-500"
-                >
-                  My Appointments
+          <NavLink to="/doctors">
+            {({ isActive }) => (
+              <div className="flex flex-col items-center gap-1 group">
+                <p className={isActive ? "text-black" : "text-gray-600 hover:text-black"}>
+                  ALL DOCTORS
                 </p>
+                <div
+                  className={`h-[2px] bg-blue-500 rounded-full transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </div>
+            )}
+          </NavLink>
 
-                <p
-                  onClick={() => setToken(false)}
-                  className="cursor-pointer hover:text-red-500"
-                >
-                  Logout
+          <NavLink to="/about">
+            {({ isActive }) => (
+              <div className="flex flex-col items-center gap-1 group">
+                <p className={isActive ? "text-black" : "text-gray-600 hover:text-black"}>
+                  ABOUT
                 </p>
+                <div
+                  className={`h-[2px] bg-blue-500 rounded-full transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </div>
+            )}
+          </NavLink>
+
+          <NavLink to="/contact">
+            {({ isActive }) => (
+              <div className="flex flex-col items-center gap-1 group">
+                <p className={isActive ? "text-black" : "text-gray-600 hover:text-black"}>
+                  CONTACT
+                </p>
+                <div
+                  className={`h-[2px] bg-blue-500 rounded-full transition-all duration-300 ${
+                    isActive ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
+              </div>
+            )}
+          </NavLink>
+        </ul>
+
+        {/* Right Side */}
+        <div className="flex items-center gap-4">
+
+          {token ? (
+            <div className="relative group hidden md:block">
+              <div className="flex items-center gap-2 cursor-pointer">
+                <img
+                  className="w-8 rounded-full"
+                  src={assets.profile_pic}
+                  alt="Profile"
+                />
+
+                <img
+                  className="w-2.5"
+                  src={assets.dropdown_icon}
+                  alt="Dropdown"
+                />
+              </div>
+
+              <div className="absolute right-0 top-8 pt-4 hidden group-hover:block z-20">
+                <div className="min-w-48 bg-white rounded-xl shadow-lg border border-gray-100 flex flex-col gap-3 p-4">
+                  <p
+                    onClick={() => navigate("/my-profile")}
+                    className="cursor-pointer hover:text-blue-500"
+                  >
+                    My Profile
+                  </p>
+
+                  <p
+                    onClick={() => navigate("/my-appointments")}
+                    className="cursor-pointer hover:text-blue-500"
+                  >
+                    My Appointments
+                  </p>
+
+                  <p
+                    onClick={() => setToken(false)}
+                    className="cursor-pointer hover:text-red-500"
+                  >
+                    Logout
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <button
-            onClick={() => navigate("/login")}
-            className="bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition-all"
-          >
-            Create Account
-          </button>
-        )}
+          ) : (
+            <button
+              onClick={() => navigate("/login")}
+              className="hidden md:block bg-blue-500 text-white px-8 py-3 rounded-full hover:bg-blue-600 transition-all"
+            >
+              Create Account
+            </button>
+          )}
+
+          {/* Mobile Menu Icon */}
+          <img
+            onClick={() => setShowMenu(true)}
+            className="w-6 md:hidden cursor-pointer"
+            src={assets.menu_icon}
+            alt="Menu"
+          />
+        </div>
       </div>
-    </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden fixed top-0 right-0 bottom-0 z-50 bg-white transition-all duration-300 overflow-hidden ${
+          showMenu ? "w-full" : "w-0"
+        }`}
+      >
+        <div className="flex items-center justify-between px-5 py-6">
+          <img src={assets.logo} className="w-36" alt="Logo" />
+
+          <img
+            onClick={() => setShowMenu(false)}
+            src={assets.cross_icon}
+            className="w-7 cursor-pointer"
+            alt="Close"
+          />
+        </div>
+
+        <ul className="flex flex-col gap-2 px-5 text-lg font-medium">
+
+          <NavLink onClick={() => setShowMenu(false)} to="/" className="px-4 py-2 rounded hover:bg-gray-100">
+            HOME
+          </NavLink>
+
+          <NavLink onClick={() => setShowMenu(false)} to="/doctors" className="px-4 py-2 rounded hover:bg-gray-100">
+            ALL DOCTORS
+          </NavLink>
+
+          <NavLink onClick={() => setShowMenu(false)} to="/about" className="px-4 py-2 rounded hover:bg-gray-100">
+            ABOUT
+          </NavLink>
+
+          <NavLink onClick={() => setShowMenu(false)} to="/contact" className="px-4 py-2 rounded hover:bg-gray-100">
+            CONTACT
+          </NavLink>
+
+          {token && (
+            <>
+              <hr className="my-2" />
+
+              <NavLink
+                onClick={() => setShowMenu(false)}
+                to="/my-profile"
+                className="px-4 py-2 rounded hover:bg-gray-100"
+              >
+                My Profile
+              </NavLink>
+
+              <NavLink
+                onClick={() => setShowMenu(false)}
+                to="/my-appointments"
+                className="px-4 py-2 rounded hover:bg-gray-100"
+              >
+                My Appointments
+              </NavLink>
+
+              <button
+                onClick={() => {
+                  setToken(false);
+                  setShowMenu(false);
+                }}
+                className="text-left px-4 py-2 rounded hover:bg-gray-100 text-red-500"
+              >
+                Logout
+              </button>
+            </>
+          )}
+        </ul>
+      </div>
+    </>
   );
 };
 
 export default Navbar;
+

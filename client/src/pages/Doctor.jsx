@@ -1,3 +1,4 @@
+
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
@@ -5,8 +6,10 @@ import { AppContext } from "../context/AppContext";
 const Doctor = () => {
   const { speciality } = useParams();
   const navigate = useNavigate();
+
   const { doctors } = useContext(AppContext);
 
+  const [showFilter, setShowFilter] = useState(false);
   const [filterDoc, setFilterDoc] = useState([]);
 
   const specialities = [
@@ -34,6 +37,7 @@ const Doctor = () => {
 
   return (
     <div className="py-10">
+
       {/* Heading */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800">
@@ -46,8 +50,21 @@ const Doctor = () => {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8">
+
+        {/* Mobile Filter Button */}
+        <button
+          onClick={() => setShowFilter((prev) => !prev)}
+          className="lg:hidden border border-gray-300 px-4 py-2 rounded-lg w-fit"
+        >
+          {showFilter ? "Hide Filters" : "Show Filters"}
+        </button>
+
         {/* Sidebar */}
-        <div className="lg:w-64 flex flex-wrap lg:flex-col gap-3">
+        <div
+          className={`${
+            showFilter ? "flex" : "hidden"
+          } lg:flex lg:w-64 flex-wrap lg:flex-col gap-3`}
+        >
           {specialities.map((item) => (
             <button
               key={item}
@@ -75,6 +92,7 @@ const Doctor = () => {
               <h2 className="text-xl font-semibold text-gray-700">
                 No Doctors Found
               </h2>
+
               <p className="text-gray-500 mt-2">
                 Try selecting another speciality.
               </p>
@@ -116,6 +134,7 @@ const Doctor = () => {
             </div>
           )}
         </div>
+
       </div>
     </div>
   );

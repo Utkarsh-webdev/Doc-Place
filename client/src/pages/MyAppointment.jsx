@@ -1,3 +1,4 @@
+
 import React, { useContext } from 'react'
 import { AppContext } from '../context/AppContext'
 
@@ -8,56 +9,99 @@ const MyAppointment = () => {
   return (
     <div className='px-4 sm:px-10 md:px-14 lg:px-28 py-10'>
 
-      <p className='pb-4 text-lg font-medium text-gray-700 border-b'>
-        My Appointments
-      </p>
+      {/* Heading */}
+      <div className='mb-8'>
+        <h1 className='text-3xl font-bold text-gray-800'>
+          My Appointments
+        </h1>
 
-      <div>
+        <p className='text-gray-500 mt-2'>
+          View and manage your upcoming appointments
+        </p>
+      </div>
+
+      {/* Appointment List */}
+      <div className='space-y-5'>
         {doctors.slice(0, 3).map((item, index) => (
           <div
             key={index}
-            className='grid grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-6 border-b'
+            className='bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 p-5'
           >
-            {/* Doctor Image */}
-            <div>
-              <img
-                className='w-32 bg-indigo-50 rounded-lg'
-                src={item.image}
-                alt={item.name}
-              />
+
+            <div className='flex flex-col md:flex-row gap-6'>
+
+              {/* Doctor Image */}
+              <div className='flex justify-center md:justify-start'>
+                <img
+                  className='w-32 h-32 object-cover rounded-2xl bg-indigo-50'
+                  src={item.image}
+                  alt={item.name}
+                />
+              </div>
+
+              {/* Doctor Details */}
+              <div className='flex-1 text-sm text-zinc-600'>
+
+                <div className='flex flex-wrap items-center gap-3'>
+                  <h2 className='text-xl font-semibold text-gray-800'>
+                    {item.name}
+                  </h2>
+
+                  <span className='bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium'>
+                    Available
+                  </span>
+                </div>
+
+                <p className='text-blue-600 font-medium mt-1'>
+                  {item.speciality}
+                </p>
+
+                <div className='mt-4'>
+                  <p className='font-semibold text-gray-700'>
+                    Address
+                  </p>
+
+                  <p>{item.address?.line1}</p>
+                  <p>{item.address?.line2}</p>
+                </div>
+
+                <div className='mt-4'>
+                  <p className='font-semibold text-gray-700'>
+                    Date & Time
+                  </p>
+
+                  <p className='text-gray-600'>
+                    25 July 2025 • 10:30 AM
+                  </p>
+                </div>
+
+                <div className='mt-4 flex items-center gap-3'>
+                  <span className='font-semibold text-gray-700'>
+                    Consultation Fee:
+                  </span>
+
+                  <span className='bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold'>
+                    ₹{item.fees}
+                  </span>
+                </div>
+
+              </div>
+
+              {/* Buttons */}
+              <div className='flex flex-col gap-3 justify-center md:min-w-[180px]'>
+
+                <button className='bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300'>
+                  Pay Online
+                </button>
+
+                <button className='border border-red-300 text-red-500 hover:bg-red-500 hover:text-white py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300'>
+                  Cancel Appointment
+                </button>
+
+              </div>
+
             </div>
 
-            {/* Doctor Details */}
-            <div className='flex-1 text-sm text-zinc-600'>
-              <p className='text-neutral-800 font-semibold'>
-                {item.name}
-              </p>
-
-              <p>{item.speciality}</p>
-
-              <p className='text-zinc-700 font-medium mt-2'>
-                Address:
-              </p>
-
-              <p>{item.address?.line1}</p>
-              <p>{item.address?.line2}</p>
-
-              <p className='mt-2'>
-                <span className='font-medium'>Date & Time:</span>{' '}
-                25 July 2025 | 10:30 AM
-              </p>
-            </div>
-
-            {/* Buttons */}
-            <div className='flex flex-col gap-2 justify-end'>
-              <button className='text-sm text-stone-500 border border-gray-300 rounded py-2 px-4 hover:bg-blue-500 hover:text-white transition-all'>
-                Pay Online
-              </button>
-
-              <button className='text-sm text-stone-500 border border-gray-300 rounded py-2 px-4 hover:bg-red-500 hover:text-white transition-all'>
-                Cancel Appointment
-              </button>
-            </div>
           </div>
         ))}
       </div>
@@ -67,3 +111,4 @@ const MyAppointment = () => {
 }
 
 export default MyAppointment
+
