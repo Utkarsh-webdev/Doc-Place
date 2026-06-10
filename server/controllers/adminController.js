@@ -2,11 +2,15 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 import { v2 as cloudinary } from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
 // API for adding doctors
 const addDoctor = async (req, res) => {
   try {
+
+    console.log("BODY =>", req.body);
+    console.log("FILE =>", req.file);
+
     const {
       name,
       email,
@@ -15,7 +19,7 @@ const addDoctor = async (req, res) => {
       degree,
       experience,
       about,
-      fee,
+      fees,
       address,
     } = req.body;
 
@@ -30,7 +34,7 @@ const addDoctor = async (req, res) => {
       !degree ||
       !experience ||
       !about ||
-      !fee ||
+      !fees ||
       !address ||
       !imageFile
     ) {
@@ -66,7 +70,7 @@ const addDoctor = async (req, res) => {
       });
     }
 
-    // Upload Image to Cloudinary
+    // Upload Image
     const imageUpload = await cloudinary.uploader.upload(
       imageFile.path,
       {
@@ -80,7 +84,7 @@ const addDoctor = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create Doctor Object
+    // Doctor Data
     const doctorData = {
       name,
       email,
@@ -89,13 +93,14 @@ const addDoctor = async (req, res) => {
       degree,
       experience,
       about,
-      fee: Number(fee),
+      fees: Number(fees), // FIXED
       address: JSON.parse(address),
       image: imageUrl,
       date: Date.now(),
     };
 
-    // Save Doctor
+    console.log("Doctor Data =>", doctorData);
+
     const newDoctor = new doctorModel(doctorData);
 
     await newDoctor.save();
@@ -106,7 +111,7 @@ const addDoctor = async (req, res) => {
     });
 
   } catch (error) {
-    console.log(error);
+    console.log("ADD DOCTOR ERROR =>", error);
 
     res.json({
       success: false,
@@ -118,29 +123,38 @@ const addDoctor = async (req, res) => {
 // API for admin login
 const loginAdmin = async (req, res) => {
   try {
-    
-    const {email, password} = req.body
 
-    if (email == process.env.ADMIN_EMAIL && password == process.env.ADMIN_PASSWORD) {
+    const { email, password } = req.body;
 
-      const token = jwt.sign(email+password, process.env.JWT_SECRET)
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(
+        email + password,
+        process.env.JWT_SECRET
+      );
+
       res.json({
         success: true,
-        token
-      })
+        token,
+      });
 
     } else {
-      res.json({success: false,
-        message: "Invalid Credentials"
-      })
+      res.json({
+        success: false,
+        message: "Invalid Credentials",
+      });
     }
 
   } catch (error) {
-    console.log(error)
-    res.json({success:false,
-      message: error.message
-    })
+    console.log(error);
+
+    res.json({
+      success: false,
+      message: error.message,
+    });
   }
-}
+};
 
 export { addDoctor, loginAdmin };
