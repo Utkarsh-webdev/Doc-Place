@@ -1,18 +1,24 @@
-
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets_frontend/assets";
 import { NavLink, useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const [token, setToken] = useState(true);
+  const { token, setToken } = useContext(AppContext);
   const [showMenu, setShowMenu] = useState(false);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    navigate("/");
+  };
 
   return (
     <>
       <div className="flex items-center justify-between py-4 mb-5 border-b border-gray-200 bg-white sticky top-0 z-50">
-
+        
         {/* Logo */}
         <img
           src={assets.logo}
@@ -86,7 +92,6 @@ const Navbar = () => {
 
         {/* Right Side */}
         <div className="flex items-center gap-4">
-
           {token ? (
             <div className="relative group hidden md:block">
               <div className="flex items-center gap-2 cursor-pointer">
@@ -120,7 +125,7 @@ const Navbar = () => {
                   </p>
 
                   <p
-                    onClick={() => setToken(false)}
+                    onClick={logout}
                     className="cursor-pointer hover:text-red-500"
                   >
                     Logout
@@ -165,20 +170,19 @@ const Navbar = () => {
         </div>
 
         <ul className="flex flex-col gap-2 px-5 text-lg font-medium">
-
-          <NavLink onClick={() => setShowMenu(false)} to="/" className="px-4 py-2 rounded hover:bg-gray-100">
+          <NavLink onClick={() => setShowMenu(false)} to="/">
             HOME
           </NavLink>
 
-          <NavLink onClick={() => setShowMenu(false)} to="/doctors" className="px-4 py-2 rounded hover:bg-gray-100">
+          <NavLink onClick={() => setShowMenu(false)} to="/doctors">
             ALL DOCTORS
           </NavLink>
 
-          <NavLink onClick={() => setShowMenu(false)} to="/about" className="px-4 py-2 rounded hover:bg-gray-100">
+          <NavLink onClick={() => setShowMenu(false)} to="/about">
             ABOUT
           </NavLink>
 
-          <NavLink onClick={() => setShowMenu(false)} to="/contact" className="px-4 py-2 rounded hover:bg-gray-100">
+          <NavLink onClick={() => setShowMenu(false)} to="/contact">
             CONTACT
           </NavLink>
 
@@ -189,7 +193,6 @@ const Navbar = () => {
               <NavLink
                 onClick={() => setShowMenu(false)}
                 to="/my-profile"
-                className="px-4 py-2 rounded hover:bg-gray-100"
               >
                 My Profile
               </NavLink>
@@ -197,17 +200,16 @@ const Navbar = () => {
               <NavLink
                 onClick={() => setShowMenu(false)}
                 to="/my-appointments"
-                className="px-4 py-2 rounded hover:bg-gray-100"
               >
                 My Appointments
               </NavLink>
 
               <button
                 onClick={() => {
-                  setToken(false);
+                  logout();
                   setShowMenu(false);
                 }}
-                className="text-left px-4 py-2 rounded hover:bg-gray-100 text-red-500"
+                className="text-left text-red-500"
               >
                 Logout
               </button>
@@ -220,4 +222,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
