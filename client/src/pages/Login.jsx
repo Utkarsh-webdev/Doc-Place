@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 
 const Login = () => {
@@ -8,8 +9,9 @@ const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const { backendUrl, setToken } = useContext(AppContext);
+  const { backendUrl, token, setToken } = useContext(AppContext);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -55,7 +57,13 @@ const Login = () => {
         error.response?.data?.message || error.message
       );
     }
-  };
+  }; 
+
+  useEffect(() => {
+  if (token) {
+    navigate("/");
+  }
+}, [token, navigate]);
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4">
