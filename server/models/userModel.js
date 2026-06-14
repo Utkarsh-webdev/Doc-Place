@@ -6,36 +6,47 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
     email: {
       type: String,
       required: true,
       unique: true,
     },
+
     password: {
       type: String,
       required: true,
     },
-    
+
+    image: {
+      type: String,
+      default: "",
+    },
+
     gender: {
-        type: String,
-        default: "Not Selected"
+      type: String,
+      default: "Not Selected",
     },
+
     dob: {
-        type: String,
-        default: "Not Selected"
+      type: String,
+      default: "Not Selected",
     },
+
     phone: {
-        type: String,
-        default: "0000000000"
+      type: String,
+      default: "0000000000",
     },
+
     address: {
-  type: Object,
-  default: {
-    line1: "",
-    line2: ""
-  }
-}
-  }
+      type: Object,
+      default: {
+        line1: "",
+        line2: "",
+      },
+    },
+  },
+  { minimize: false }
 );
 
 const userModel =

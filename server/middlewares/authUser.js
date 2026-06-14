@@ -16,7 +16,7 @@ const authUser = async (req, res, next) => {
       process.env.JWT_SECRET
     );
 
-    req.body.userId = token_decode.id;
+    req.userId = token_decode.id;
 
     next();
   } catch (error) {

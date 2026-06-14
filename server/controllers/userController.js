@@ -139,7 +139,7 @@ const loginUser = async (req, res) => {
 // API to get user profile data
 const getProfile = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const userId = req.userId;
 
     const userData = await userModel
       .findById(userId)
@@ -163,8 +163,9 @@ const getProfile = async (req, res) => {
 // API to update user profile
 const updateProfile = async (req, res) => {
   try {
+    const userId = req.userId;
+
     const {
-      userId,
       name,
       phone,
       address,
