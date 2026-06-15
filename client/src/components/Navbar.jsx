@@ -6,7 +6,7 @@ import { AppContext } from "../context/AppContext";
 const Navbar = () => {
   const navigate = useNavigate();
 
-  const { token, setToken } = useContext(AppContext);
+  const { token, setToken, userData } = useContext(AppContext);
   const [showMenu, setShowMenu] = useState(false);
 
   const logout = () => {
@@ -18,7 +18,6 @@ const Navbar = () => {
   return (
     <>
       <div className="flex items-center justify-between py-4 mb-5 border-b border-gray-200 bg-white sticky top-0 z-50">
-        
         {/* Logo */}
         <img
           src={assets.logo}
@@ -32,7 +31,13 @@ const Navbar = () => {
           <NavLink to="/">
             {({ isActive }) => (
               <div className="flex flex-col items-center gap-1 group">
-                <p className={isActive ? "text-black" : "text-gray-600 hover:text-black"}>
+                <p
+                  className={
+                    isActive
+                      ? "text-black"
+                      : "text-gray-600 hover:text-black"
+                  }
+                >
                   HOME
                 </p>
                 <div
@@ -47,7 +52,13 @@ const Navbar = () => {
           <NavLink to="/doctors">
             {({ isActive }) => (
               <div className="flex flex-col items-center gap-1 group">
-                <p className={isActive ? "text-black" : "text-gray-600 hover:text-black"}>
+                <p
+                  className={
+                    isActive
+                      ? "text-black"
+                      : "text-gray-600 hover:text-black"
+                  }
+                >
                   ALL DOCTORS
                 </p>
                 <div
@@ -62,7 +73,13 @@ const Navbar = () => {
           <NavLink to="/about">
             {({ isActive }) => (
               <div className="flex flex-col items-center gap-1 group">
-                <p className={isActive ? "text-black" : "text-gray-600 hover:text-black"}>
+                <p
+                  className={
+                    isActive
+                      ? "text-black"
+                      : "text-gray-600 hover:text-black"
+                  }
+                >
                   ABOUT
                 </p>
                 <div
@@ -77,7 +94,13 @@ const Navbar = () => {
           <NavLink to="/contact">
             {({ isActive }) => (
               <div className="flex flex-col items-center gap-1 group">
-                <p className={isActive ? "text-black" : "text-gray-600 hover:text-black"}>
+                <p
+                  className={
+                    isActive
+                      ? "text-black"
+                      : "text-gray-600 hover:text-black"
+                  }
+                >
                   CONTACT
                 </p>
                 <div
@@ -92,12 +115,12 @@ const Navbar = () => {
 
         {/* Right Side */}
         <div className="flex items-center gap-4">
-          {token ? (
+          {token && userData ? (
             <div className="relative group hidden md:block">
               <div className="flex items-center gap-2 cursor-pointer">
                 <img
-                  className="w-8 rounded-full"
-                  src={assets.profile_pic}
+                  className="w-8 h-8 rounded-full object-cover"
+                  src={userData.image || assets.profile_pic}
                   alt="Profile"
                 />
 
@@ -169,7 +192,7 @@ const Navbar = () => {
           />
         </div>
 
-        <ul className="flex flex-col gap-2 px-5 text-lg font-medium">
+        <ul className="flex flex-col gap-4 px-5 text-lg font-medium">
           <NavLink onClick={() => setShowMenu(false)} to="/">
             HOME
           </NavLink>
@@ -188,7 +211,7 @@ const Navbar = () => {
 
           {token && (
             <>
-              <hr className="my-2" />
+              <hr />
 
               <NavLink
                 onClick={() => setShowMenu(false)}

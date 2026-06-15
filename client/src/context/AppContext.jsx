@@ -9,10 +9,13 @@ const AppContextProvider = (props) => {
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [doctors, setDoctors] = useState([]);
+  const [userData, setUserData] = useState(null);
+
   const [token, setToken] = useState(
     localStorage.getItem("token") || ""
   );
 
+  // ================= GET ALL DOCTORS =================
   const getDoctorsData = async () => {
     try {
       const { data } = await axios.get(
@@ -30,18 +33,57 @@ const AppContextProvider = (props) => {
     }
   };
 
+  // ================= LOAD USER PROFILE =================
+  const loadUserProfileData = async () => {
+    try {
+      const { data } = await axios.get(
+        `${backendUrl}/api/user/get-profile`,
+        {
+          headers: {
+            token,
+          },
+        }
+      );
+
+      if (data.success) {
+        setUserData(data.userData);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  // ================= LOAD DOCTORS =================
   useEffect(() => {
     getDoctorsData();
   }, []);
+
+  // ================= LOAD USER DATA WHEN TOKEN CHANGES =================
+  useEffect(() => {
+    if (token) {
+      loadUserProfileData();
+    } else {
+      setUserData(null);
+    }
+  }, [token]);
 
   const value = {
     doctors,
     setDoctors,
     currencySymbol,
     backendUrl,
-    getDoctorsData,
+
     token,
     setToken,
+
+    userData,
+    setUserData,
+
+    getDoctorsData,
+    loadUserProfileData,
   };
 
   return (

@@ -4,6 +4,7 @@ import {
   loginUser,
   getProfile,
   updateProfile,
+  bookAppointment,
 } from "../controllers/userController.js";
 
 import authUser from "../middlewares/authUser.js";
@@ -25,6 +26,12 @@ userRouter.get(
   "/get-profile",
   authUser,
   getProfile
+);
+
+userRouter.post(
+  "/book-appointment",
+  authUser,
+  bookAppointment
 );
 
 export default userRouter;

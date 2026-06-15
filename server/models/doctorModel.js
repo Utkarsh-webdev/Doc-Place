@@ -57,10 +57,10 @@ const doctorSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    slot_booked: {
-      type: Object,
-      default: {},
-    },
+    slots_booked: {
+  type: Object,
+  default: {},
+},
   },
   { minimize: false }
 );
