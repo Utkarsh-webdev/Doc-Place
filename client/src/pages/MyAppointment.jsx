@@ -8,7 +8,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const MyAppointment = () => {
-  const { backendUrl, token } =
+  const { backendUrl, token , getDoctorsData} =
     useContext(AppContext);
 
   const [appointments, setAppointments] =
@@ -74,6 +74,7 @@ const MyAppointment = () => {
       if (data.success) {
         toast.success(data.message);
         getUserAppointments();
+        getDoctorsData()
       } else {
         toast.error(data.message);
       }
@@ -88,6 +89,72 @@ const MyAppointment = () => {
       getUserAppointments();
     }
   }, [token]);
+
+  const initPay = (order) => {
+  const options = {
+    key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+    amount: order.amount,
+    currency: order.currency,
+    name: "DocPlace",
+    description: "Appointment Payment",
+    order_id: order.id,
+
+    handler: async (response) => {
+  try {
+    const { data } = await axios.post(
+      `${backendUrl}/api/user/verify-razorpay`,
+      {
+        appointmentId: order.receipt,
+        razorpay_order_id:
+          response.razorpay_order_id,
+        razorpay_payment_id:
+          response.razorpay_payment_id,
+        razorpay_signature:
+          response.razorpay_signature,
+      },
+      {
+        headers: { token },
+      }
+    );
+
+    if (data.success) {
+      toast.success("Payment Successful");
+      getUserAppointments();
+      
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log(error);
+    toast.error(error.message);
+  }
+},
+  };
+
+  const rzp = new window.Razorpay(options);
+  rzp.open();
+};
+
+const appointmentRazorpay = async (appointmentId) => {
+  try {
+    const { data } = await axios.post(
+      `${backendUrl}/api/user/payment-razorpay`,
+      { appointmentId },
+      {
+        headers: { token },
+      }
+    );
+
+    if (data.success) {
+      initPay(data.order);
+    } else {
+      toast.error(data.message);
+    }
+  } catch (error) {
+    console.log(error);
+    toast.error(error.message);
+  }
+};
 
   return (
     <div className="px-4 sm:px-10 md:px-14 lg:px-28 py-10">
@@ -128,16 +195,20 @@ const MyAppointment = () => {
                   </h2>
 
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      item.cancelled
-                        ? "bg-red-100 text-red-600"
-                        : "bg-green-100 text-green-700"
-                    }`}
-                  >
-                    {item.cancelled
-                      ? "Cancelled"
-                      : "Booked"}
-                  </span>
+  className={`px-3 py-1 rounded-full text-xs font-medium ${
+    item.cancelled
+      ? "bg-red-100 text-red-600"
+      : item.payment
+      ? "bg-green-100 text-green-700"
+      : "bg-yellow-100 text-yellow-700"
+  }`}
+>
+  {item.cancelled
+    ? "Cancelled"
+    : item.payment
+    ? "Paid"
+    : "Pending"}
+</span>
                 </div>
 
                 <p className="text-blue-600 font-medium mt-1">
@@ -190,11 +261,16 @@ const MyAppointment = () => {
 
               {/* Buttons */}
               <div className="flex flex-col gap-3 justify-center md:min-w-[180px]">
-                {!item.cancelled ? (
+                {!item.cancelled && !item.payment ? (
                   <>
-                    <button className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300">
-                      Pay Online
-                    </button>
+                    {!item.payment && (
+  <button
+    onClick={() => appointmentRazorpay(item._id)}
+    className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-xl text-sm font-medium transition-all duration-300"
+  >
+    Pay Online
+  </button>
+)}
 
                     <button
                       onClick={() =>

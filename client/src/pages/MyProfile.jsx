@@ -64,41 +64,39 @@ const MyProfile = () => {
 
         {/* Profile Image */}
         {isEdit ? (
-          <label htmlFor="image" className="cursor-pointer">
+  <label htmlFor="image" className="cursor-pointer">
+    <div className="relative w-36">
+      <img
+        className="w-36 rounded-lg opacity-75"
+        src={
+          image
+            ? URL.createObjectURL(image)
+            : userData.image || assets.profile_pic
+        }
+        alt=""
+      />
 
-            <div className="relative w-36">
+      <img
+        className="w-10 absolute bottom-2 right-2"
+        src={assets.upload_icon}
+        alt=""
+      />
+    </div>
 
-              <img
-                className="w-36 rounded-lg opacity-75"
-                src={
-                  image
-                    ? URL.createObjectURL(image)
-                    : userData.image
-                }
-                alt=""
-              />
-
-              <img
-                className="w-10 absolute bottom-2 right-2"
-                src={assets.upload_icon}
-                alt=""
-              />
-            </div>
-
-            <input
-              onChange={(e) => setImage(e.target.files[0])}
-              type="file"
-              id="image"
-              hidden
-            />
-          </label>
-        ) : (
-          <img
-            className="w-36 rounded-lg"
-            src={userData.image}
-            alt={userData.name}
-          />
-        )}
+    <input
+      onChange={(e) => setImage(e.target.files[0])}
+      type="file"
+      id="image"
+      hidden
+    />
+  </label>
+) : (
+  <img
+    className="w-36 rounded-lg"
+    src={userData.image || assets.profile_pic}
+    alt={userData.name}
+  />
+)}
 
         {/* Name */}
         {isEdit ? (

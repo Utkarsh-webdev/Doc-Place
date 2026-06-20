@@ -7,6 +7,8 @@ import {
   bookAppointment,
   listAppointment,
   cancelAppointment,
+  paymentRazorpay,
+  verifyRazorpay,
 } from "../controllers/userController.js";
 
 import authUser from "../middlewares/authUser.js";
@@ -22,6 +24,18 @@ userRouter.post(
   authUser,
   upload.single("image"),
   updateProfile
+);
+
+userRouter.post(
+  "/verify-razorpay",
+  authUser,
+  verifyRazorpay
+);
+
+userRouter.post(
+  "/payment-razorpay",
+  authUser,
+  paymentRazorpay
 );
 
 userRouter.get(
