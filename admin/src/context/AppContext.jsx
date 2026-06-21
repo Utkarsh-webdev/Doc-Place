@@ -4,13 +4,68 @@ export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
 
-    const value = {};
+  const currency = "₹";
 
-    return (
-        <AppContext.Provider value={value}>
-            {props.children}
-        </AppContext.Provider>
-    );
+  const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+
+    if (!dob || isNaN(birthDate.getTime())) {
+      return "N/A";
+    }
+
+    const today = new Date();
+
+    let age =
+      today.getFullYear() - birthDate.getFullYear();
+
+    const monthDifference =
+      today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 &&
+        today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  };
+
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
+  const slotDateFormat = (slotDate) => {
+    const dateArray = slotDate.split("_");
+
+    return `${dateArray[0]} ${
+      months[Number(dateArray[1]) - 1]
+    } ${dateArray[2]}`;
+  };
+
+  const value = {
+    calculateAge,
+    slotDateFormat,
+    currency,
+  };
+
+  return (
+    <AppContext.Provider value={value}>
+      {props.children}
+    </AppContext.Provider>
+  );
 };
 
 export default AppContextProvider;

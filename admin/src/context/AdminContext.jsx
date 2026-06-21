@@ -5,24 +5,25 @@ import { toast } from "react-toastify";
 export const AdminContext = createContext();
 
 const AdminContextProvider = (props) => {
-
   const [aToken, setAToken] = useState(
     localStorage.getItem("aToken") || ""
   );
 
   const [doctors, setDoctors] = useState([]);
+  const [appointments, setAppointments] = useState([]);
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  // Get All Doctors
+  // =========================
+  // GET ALL DOCTORS
+  // =========================
   const getAllDoctors = async () => {
     try {
-
       const { data } = await axios.post(
-        backendUrl + "/api/admin/all-doctors",
+        `${backendUrl}/api/admin/all-doctors`,
         {},
         {
-          headers: { aToken }
+          headers: { aToken },
         }
       );
 
@@ -31,22 +32,22 @@ const AdminContextProvider = (props) => {
       } else {
         toast.error(data.message);
       }
-
     } catch (error) {
       console.log(error);
       toast.error(error.message);
     }
   };
 
-  // Change Availability
+  // =========================
+  // CHANGE AVAILABILITY
+  // =========================
   const changeAvailability = async (docId) => {
     try {
-
       const { data } = await axios.post(
-        backendUrl + "/api/admin/change-availability",
+        `${backendUrl}/api/admin/change-availability`,
         { docId },
         {
-          headers: { aToken }
+          headers: { aToken },
         }
       );
 
@@ -56,7 +57,56 @@ const AdminContextProvider = (props) => {
       } else {
         toast.error(data.message);
       }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
 
+  // =========================
+  // GET ALL APPOINTMENTS
+  // =========================
+  const getAllAppointments = async () => {
+    try {
+      const { data } = await axios.get(
+        `${backendUrl}/api/admin/appointments`,
+        {
+          headers: { aToken },
+        }
+      );
+
+      if (data.success) {
+        setAppointments(data.appointments.reverse());
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
+  // =========================
+  // CANCEL APPOINTMENT
+  // =========================
+  const cancelAppointment = async (
+    appointmentId
+  ) => {
+    try {
+      const { data } = await axios.post(
+        `${backendUrl}/api/admin/cancel-appointment`,
+        { appointmentId },
+        {
+          headers: { aToken },
+        }
+      );
+
+      if (data.success) {
+        toast.success(data.message);
+        getAllAppointments();
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -67,9 +117,15 @@ const AdminContextProvider = (props) => {
     aToken,
     setAToken,
     backendUrl,
+
     doctors,
+    appointments,
+
     getAllDoctors,
-    changeAvailability
+    changeAvailability,
+
+    getAllAppointments,
+    cancelAppointment,
   };
 
   return (

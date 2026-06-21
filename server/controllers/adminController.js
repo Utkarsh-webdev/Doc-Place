@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 import { v2 as cloudinary } from "cloudinary";
 import doctorModel from "../models/doctorModel.js";
+import appointmentModel from "../models/appointmentModel.js";
 import jwt from "jsonwebtoken";
 
 // API for adding doctors
@@ -180,4 +181,123 @@ const allDoctors = async (req, res) => {
   }
 };
 
-export { addDoctor, loginAdmin, allDoctors };
+
+// API to get all appointments list
+const appointmentsAdmin = async (req, res) => {
+  try {
+    const appointments = await appointmentModel.find({});
+
+    res.json({
+      success: true,
+      appointments,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// API to change doctor availability
+const changeAvailability = async (req, res) => {
+  try {
+    const { docId } = req.body;
+
+    const doctorData = await doctorModel.findById(docId);
+
+    await doctorModel.findByIdAndUpdate(docId, {
+      available: !doctorData.available,
+    });
+
+    res.json({
+      success: true,
+      message: "Availability Changed",
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// API for appointment cancellation
+const cancelAppointmentAdmin = async (req, res) => {
+  try {
+    const { appointmentId } = req.body;
+
+    const appointmentData = await appointmentModel.findById(
+      appointmentId
+    );
+
+    if (!appointmentData) {
+      return res.json({
+        success: false,
+        message: "Appointment Not Found",
+      });
+    }
+
+    const { docId, slotDate, slotTime } =
+      appointmentData;
+
+    // Mark appointment cancelled
+    await appointmentModel.findByIdAndUpdate(
+      appointmentId,
+      {
+        cancelled: true,
+      }
+    );
+
+    // Free doctor slot
+    const doctorData = await doctorModel.findById(
+      docId
+    );
+
+    let slots_booked = doctorData.slots_booked;
+
+    if (slots_booked[slotDate]) {
+      slots_booked[slotDate] =
+        slots_booked[slotDate].filter(
+          (time) => time !== slotTime
+        );
+
+      if (
+        slots_booked[slotDate].length === 0
+      ) {
+        delete slots_booked[slotDate];
+      }
+    }
+
+    await doctorModel.findByIdAndUpdate(docId, {
+      slots_booked,
+    });
+
+    res.json({
+      success: true,
+      message: "Appointment Cancelled Successfully",
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+
+export {
+  addDoctor,
+  loginAdmin,
+  allDoctors,
+  appointmentsAdmin,
+  changeAvailability,
+  cancelAppointmentAdmin,
+};
