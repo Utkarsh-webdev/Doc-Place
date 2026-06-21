@@ -11,6 +11,7 @@ const AdminContextProvider = (props) => {
 
   const [doctors, setDoctors] = useState([]);
   const [appointments, setAppointments] = useState([]);
+  const [dashData, setDashData] = useState(null);
 
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -89,9 +90,7 @@ const AdminContextProvider = (props) => {
   // =========================
   // CANCEL APPOINTMENT
   // =========================
-  const cancelAppointment = async (
-    appointmentId
-  ) => {
+  const cancelAppointment = async (appointmentId) => {
     try {
       const { data } = await axios.post(
         `${backendUrl}/api/admin/cancel-appointment`,
@@ -113,6 +112,29 @@ const AdminContextProvider = (props) => {
     }
   };
 
+  // =========================
+  // GET DASHBOARD DATA
+  // =========================
+  const getDashData = async () => {
+    try {
+      const { data } = await axios.get(
+        `${backendUrl}/api/admin/dashboard`,
+        {
+          headers: { aToken },
+        }
+      );
+
+      if (data.success) {
+        setDashData(data.dashData);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  };
+
   const value = {
     aToken,
     setAToken,
@@ -120,12 +142,15 @@ const AdminContextProvider = (props) => {
 
     doctors,
     appointments,
+    dashData,
 
     getAllDoctors,
     changeAvailability,
 
     getAllAppointments,
     cancelAppointment,
+
+    getDashData,
   };
 
   return (
