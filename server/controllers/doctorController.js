@@ -1,4 +1,5 @@
 import doctorModel from "../models/doctorModel.js";
+import userModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import appointmentModel from "../models/appointmentModel.js";
@@ -203,6 +204,117 @@ const appointmentCancel = async (req, res) => {
   }
 };
 
+// API to get dashboard data for doctor panel
+const doctorDashboard = async (req, res) => {
+  try {
+
+    const { docId } = req;
+
+    const appointments = await appointmentModel.find({
+      docId,
+    });
+
+    let earnings = 0;
+
+    appointments.forEach((item) => {
+      if (item.isCompleted || item.payment) {
+        earnings += item.amount;
+      }
+    });
+
+    let patients = [];
+
+    appointments.forEach((item) => {
+      if (!patients.includes(item.userId)) {
+        patients.push(item.userId);
+      }
+    });
+
+    const dashData = {
+      earnings,
+      appointments: appointments.length,
+      patients: patients.length,
+      latestAppointments: appointments.reverse().slice(0, 5),
+    };
+
+    res.json({
+      success: true,
+      dashData,
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// API to get doctor profile for Doctor Panel
+const doctorProfile = async (req, res) => {
+  try {
+
+    const { docId } = req;
+
+    const profileData = await doctorModel
+      .findById(docId)
+      .select("-password");
+
+    res.json({
+      success: true,
+      profileData,
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// API to update doctor profile data from doctor panel
+const updateDoctorProfile = async (req, res) => {
+  try {
+
+    const { docId } = req;
+
+    const {
+      fees,
+      address,
+      available,
+      about,
+    } = req.body;
+
+    await doctorModel.findByIdAndUpdate(
+      docId,
+      {
+        fees,
+        address,
+        available,
+        about,
+      }
+    );
+
+    res.json({
+      success: true,
+      message: "Profile Updated Successfully",
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export {
   changeAvailability,
   doctorList,
@@ -210,4 +322,7 @@ export {
   appointmentsDoctor,
   appointmentComplete,
   appointmentCancel,
+  doctorDashboard,
+  doctorProfile,
+  updateDoctorProfile,
 };
