@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { assets } from '../assets/assets_admin/assets';
 import { AdminContext } from '../context/AdminContext';
+import { DoctorContext } from '../context/DoctorContext';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
@@ -11,28 +12,36 @@ const Login = () => {
     const [password, setPassword] = useState('');
 
     const { setAToken, backendUrl } = useContext(AdminContext);
+    const { setDToken } = useContext(DoctorContext);
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
 
         try {
 
+            // Admin Login
             if (state === 'Admin') {
 
                 const { data } = await axios.post(
-                    backendUrl + `/api/admin/login`,
+                    `${backendUrl}/api/admin/login`,
                     { email, password }
                 );
 
                 if (data.success) {
+
                     localStorage.setItem('aToken', data.token);
                     setAToken(data.token);
+
                     toast.success('Admin Login Successful');
+
                 } else {
                     toast.error(data.message);
                 }
 
-            } else {
+            }
+
+            // Doctor Login
+            else {
 
                 const { data } = await axios.post(
                     `${backendUrl}/api/doctor/login`,
@@ -40,16 +49,27 @@ const Login = () => {
                 );
 
                 if (data.success) {
+
                     localStorage.setItem('dToken', data.token);
+
+                    // VERY IMPORTANT
+                    setDToken(data.token);
+
                     toast.success('Doctor Login Successful');
+
                 } else {
                     toast.error(data.message);
                 }
             }
 
         } catch (error) {
+
             console.log(error);
-            toast.error(error.response?.data?.message || error.message);
+
+            toast.error(
+                error.response?.data?.message ||
+                error.message
+            );
         }
     };
 
@@ -64,22 +84,25 @@ const Login = () => {
                     <img
                         className="w-32"
                         src={assets.admin_logo}
-                        alt="Admin Logo"
+                        alt=""
                     />
                 </div>
 
                 <p className="text-2xl font-semibold m-auto">
-                    <span className="text-blue-600">{state}</span> Login
+                    <span className="text-blue-600">
+                        {state}
+                    </span>{" "}
+                    Login
                 </p>
 
                 <div className="w-full">
                     <p>Email</p>
                     <input
-                        onChange={(e) => setEmail(e.target.value)}
                         value={email}
-                        className="border border-zinc-300 rounded w-full p-2 mt-1 outline-none focus:border-blue-500"
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="border border-zinc-300 rounded w-full p-2 mt-1"
                         type="email"
-                        placeholder="Enter your email"
+                        placeholder="Enter Email"
                         required
                     />
                 </div>
@@ -87,44 +110,43 @@ const Login = () => {
                 <div className="w-full">
                     <p>Password</p>
                     <input
-                        onChange={(e) => setPassword(e.target.value)}
                         value={password}
-                        className="border border-zinc-300 rounded w-full p-2 mt-1 outline-none focus:border-blue-500"
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="border border-zinc-300 rounded w-full p-2 mt-1"
                         type="password"
-                        placeholder="Enter your password"
+                        placeholder="Enter Password"
                         required
                     />
                 </div>
 
                 <button
                     type="submit"
-                    className="bg-blue-600 hover:bg-blue-700 text-white w-full py-2 rounded-md text-base transition-all duration-300"
+                    className="bg-blue-600 hover:bg-blue-700 text-white w-full py-2 rounded-md transition-all"
                 >
                     Login
                 </button>
 
                 {state === 'Admin' ? (
                     <p>
-                        Doctor Login?{" "}
+                        Doctor Login?{' '}
                         <span
                             onClick={() => setState('Doctor')}
-                            className="text-blue-600 cursor-pointer font-medium"
+                            className="text-blue-600 cursor-pointer"
                         >
                             Click Here
                         </span>
                     </p>
                 ) : (
                     <p>
-                        Admin Login?{" "}
+                        Admin Login?{' '}
                         <span
                             onClick={() => setState('Admin')}
-                            className="text-blue-600 cursor-pointer font-medium"
+                            className="text-blue-600 cursor-pointer"
                         >
                             Click Here
                         </span>
                     </p>
                 )}
-
             </div>
         </form>
     );
