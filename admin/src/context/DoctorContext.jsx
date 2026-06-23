@@ -14,7 +14,9 @@ const DoctorContextProvider = (props) => {
 
     const [appointments, setAppointments] = useState([]);
 
+    // ==========================
     // Get Doctor Appointments
+    // ==========================
     const getAppointments = async () => {
         try {
 
@@ -22,13 +24,77 @@ const DoctorContextProvider = (props) => {
                 `${backendUrl}/api/doctor/appointments`,
                 {
                     headers: {
-  token: dToken,
-}
+                        token: dToken,
+                    },
                 }
             );
 
             if (data.success) {
-                setAppointments(data.appointments.reverse());
+                setAppointments(
+                    data.appointments
+                );
+            } else {
+                toast.error(data.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    };
+
+    // ==========================
+    // Complete Appointment
+    // ==========================
+    const completeAppointment = async (
+        appointmentId
+    ) => {
+        try {
+
+            const { data } = await axios.post(
+                `${backendUrl}/api/doctor/complete-appointment`,
+                { appointmentId },
+                {
+                    headers: {
+                        token: dToken,
+                    },
+                }
+            );
+
+            if (data.success) {
+                toast.success(data.message);
+                getAppointments();
+            } else {
+                toast.error(data.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    };
+
+    // ==========================
+    // Cancel Appointment
+    // ==========================
+    const cancelAppointment = async (
+        appointmentId
+    ) => {
+        try {
+
+            const { data } = await axios.post(
+                `${backendUrl}/api/doctor/cancel-appointment`,
+                { appointmentId },
+                {
+                    headers: {
+                        token: dToken,
+                    },
+                }
+            );
+
+            if (data.success) {
+                toast.success(data.message);
+                getAppointments();
             } else {
                 toast.error(data.message);
             }
@@ -41,12 +107,16 @@ const DoctorContextProvider = (props) => {
 
     const value = {
         backendUrl,
+
         dToken,
         setDToken,
 
         appointments,
         setAppointments,
+
         getAppointments,
+        completeAppointment,
+        cancelAppointment,
     };
 
     return (
