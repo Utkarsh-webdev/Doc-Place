@@ -22,8 +22,8 @@ const DoctorContextProvider = (props) => {
                 `${backendUrl}/api/doctor/appointments`,
                 {
                     headers: {
-                        dToken,
-                    },
+  token: dToken,
+}
                 }
             );
 

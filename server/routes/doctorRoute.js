@@ -1,4 +1,5 @@
 import express from "express";
+import authDoctor from "../middlewares/authDoctor.js";
 import {
   changeAvailability,
   doctorList,
