@@ -45,6 +45,8 @@ const Dashboard = () => {
     );
   }
 
+  
+  
   return (
     <div className="w-full p-6 bg-[#FAFBFC] min-h-screen">
 
@@ -167,15 +169,14 @@ const Dashboard = () => {
                 <div className="flex items-center gap-4">
 
                   <img
-                    src={
-                      item.userData?.image &&
-                      item.userData.image !== ""
-                        ? item.userData.image
-                        : assets.profile_pic
-                    }
-                    alt=""
-                    className="w-12 h-12 min-w-[48px] rounded-full object-cover border border-gray-200"
-                  />
+  src={
+    item.userData?.image
+      ? item.userData.image
+      : `https://ui-avatars.com/api/?name=${item.userData?.name}`
+  }
+  alt=""
+  className="w-12 h-12 min-w-[48px] rounded-full object-cover border border-gray-200"
+/>
 
                   <div>
 
@@ -220,6 +221,7 @@ const Dashboard = () => {
       </div>
 
     </div>
+    
   );
 };
 

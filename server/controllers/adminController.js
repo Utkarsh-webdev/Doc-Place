@@ -296,20 +296,42 @@ const cancelAppointmentAdmin = async (req, res) => {
 // API to get dashboard data for admin panel
 const adminDashboard = async (req, res) => {
   try {
+
     const doctors = await doctorModel.find({});
     const users = await userModel.find({});
     const appointments = await appointmentModel.find({});
+
+    // Get latest user image for each appointment
+    const latestAppointments = await Promise.all(
+      appointments.map(async (appointment) => {
+
+        const user = await userModel.findById(
+          appointment.userId
+        );
+
+        return {
+          ...appointment._doc,
+
+          userData: {
+            ...appointment.userData,
+            image: user?.image || "",
+          },
+        };
+      })
+    );
 
     const dashData = {
       doctors: doctors.length,
       appointments: appointments.length,
       patients: users.length,
-      latestAppointment: appointments.reverse().slice(0,5)
+      latestAppointment: latestAppointments
+        .reverse()
+        .slice(0, 5),
     };
 
     res.json({
       success: true,
-      dashData
+      dashData,
     });
 
   } catch (error) {

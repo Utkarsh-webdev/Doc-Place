@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
 
     gender: {
       type: String,
-      default: "Not Selected",
+      default: "",
     },
 
     dob: {
@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
 
     phone: {
       type: String,
-      default: "0000000000",
+      default: "",
     },
 
     address: {
@@ -46,10 +46,14 @@ const userSchema = new mongoose.Schema(
       },
     },
   },
-  { minimize: false }
+  {
+    minimize: false,
+    timestamps: true,
+  }
 );
 
 const userModel =
-  mongoose.models.user || mongoose.model("user", userSchema);
+  mongoose.models.user ||
+  mongoose.model("user", userSchema);
 
 export default userModel;
