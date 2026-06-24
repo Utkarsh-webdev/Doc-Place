@@ -10,7 +10,7 @@ const Sidebar = () => {
   const { dToken } = useContext(DoctorContext)
 
   return (
-    <div className='min-h-screen bg-white border-r'>
+    <div className='min-h-screen bg-white'>
 
       {/* Admin Sidebar */}
       {aToken && (

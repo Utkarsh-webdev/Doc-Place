@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2B6CB0"/>
+      <stop offset="100%" stop-color="#1A365D"/>
+    </linearGradient>
+    <linearGradient id="shieldHighlight" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#ffffff" stop-opacity="0.0"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.2"/>
+    </linearGradient>
+    
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2E8F0"/>
+      <stop offset="50%" stop-color="#CBD5E0"/>
+      <stop offset="100%" stop-color="#718096"/>
+    </linearGradient>
+    <linearGradient id="staffGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D69E2E"/>
+      <stop offset="50%" stop-color="#FEFCBF"/>
+      <stop offset="100%" stop-color="#B7791F"/>
+    </linearGradient>
+
+    <path id="textPathLeft" d="M 275,215 A 130,130 0 0,0 400,345" fill="none"/>
+    <path id="textPathRight" d="M 400,345 A 130,130 0 0,0 525,215" fill="none"/>
+  </defs>
+
+  <style>
+    .brand-title { font-family: 'Georgia', 'Times New Roman', serif; font-weight: bold; font-size: 54px; fill: #0F2942; letter-spacing: 2px; text-anchor: middle; }
+    .brand-subtitle { font-family: 'Arial', sans-serif; font-weight: 500; font-size: 18px; fill: #334E68; letter-spacing: 1px; text-anchor: middle; }
+    .rim-text { font-family: 'Arial', sans-serif; font-weight: bold; font-size: 10px; fill: #4A5568; letter-spacing: 1.5px; }
+    .year-text { font-family: 'Arial', sans-serif; font-weight: bold; font-size: 11px; fill: #718096; letter-spacing: 1px; }
+  </style>
+
+  <g transform="translate(0, -20)">
+    <circle cx="400" cy="215" r="145" fill="none" stroke="#A0AEC0" stroke-width="1.5" opacity="0.6"/>
+    <circle cx="400" cy="215" r="132" fill="none" stroke="#CBD5E0" stroke-width="2"/>
+
+    <text class="rim-text">
+      <textPath href="#textPathLeft" startOffset="50%" text-anchor="middle">PROFESSIONAL SETTLEMENT</textPath>
+    </text>
+    <text class="rim-text">
+      <textPath href="#textPathRight" startOffset="50%" text-anchor="middle">HEALTHCARE BOOKING</textPath>
+    </text>
+
+    <circle cx="264" cy="180" r="2.5" fill="#718096"/>
+    <circle cx="536" cy="180" r="2.5" fill="#718096"/>
+
+    <g id="Shield">
+      <path d="M 400,75 C 445,75 480,65 495,85 C 505,135 500,235 400,295 C 300,235 295,135 305,85 C 320,65 355,75 400,75 Z" 
+            fill="url(#shieldGrad)" stroke="#1A365D" stroke-width="4" stroke-linejoin="round"/>
+      
+      <path d="M 400,85 C 438,85 468,77 482,93 C 490,135 485,220 400,278 C 315,220 310,135 318,93 C 332,77 362,85 400,85 Z" 
+            fill="none" stroke="#4299E1" stroke-width="2" opacity="0.5"/>
+
+      <path d="M 400,75 C 445,75 480,65 495,85 C 505,135 500,235 400,295 Z" fill="url(#shieldHighlight)"/>
+    </g>
+
+    <text x="345" y="195" class="year-text" text-anchor="middle">EST.</text>
+    <text x="455" y="195" class="year-text" text-anchor="middle">2024</text>
+
+    <g id="Caduceus" transform="translate(0,0)">
+      <rect x="396" y="105" width="8" width="8" x="396" y="105" width="8" height="180" fill="url(#staffGold)" rx="3"/>
+      <circle cx="400" cy="100" r="9" fill="url(#staffGold)"/>
+      <circle cx="400" cy="287" r="4" fill="url(#staffGold)"/>
+
+      <path d="M 400,125 
+               C 430,100 475,105 510,120 C 490,135 465,140 445,145 C 470,150 490,155 500,165 C 475,170 450,168 430,168 C 445,178 455,188 450,195 C 430,192 415,175 400,165 Z" 
+            fill="url(#goldGrad)" stroke="#1A202C" stroke-width="1"/>
+      <path d="M 400,125 
+               C 370,100 325,105 290,120 C 310,135 335,140 355,145 C 330,150 310,155 300,165 C 325,170 350,168 370,168 C 355,178 365,188 350,195 C 370,192 385,175 400,165 Z" 
+            fill="url(#goldGrad)" stroke="#1A202C" stroke-width="1"/>
+
+      <path d="M 400,260 C 360,240 360,220 400,200 C 440,180 440,160 400,140 C 375,140 365,150 375,155" 
+            fill="none" stroke="#E2E8F0" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M 400,260 C 360,240 360,220 400,200 C 440,180 440,160 400,140 C 375,140 365,150 375,155" 
+            fill="none" stroke="#4A5568" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="375" cy="155" r="4.5" fill="#E2E8F0" stroke="#4A5568" stroke-width="1"/>
+
+      <path d="M 400,260 C 440,240 440,220 400,200 C 360,180 360,160 400,140 C 425,140 435,150 425,155" 
+            fill="none" stroke="#CBD5E0" stroke-width="5.5" stroke-linecap="round"/>
+      <path d="M 400,260 C 440,240 440,220 400,200 C 360,180 360,160 400,140 C 425,140 435,150 425,155" 
+            fill="none" stroke="#2D3748" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="425" cy="155" r="4.5" fill="#CBD5E0" stroke="#2D3748" stroke-width="1"/>
+    </g>
+  </g>
+
+  <text x="400" y="415" class="brand-title">HEALTHORA</text>
+  <text x="400" y="445" class="brand-subtitle">Professional Healthcare Booking</text>
+</svg>

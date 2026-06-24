@@ -27,25 +27,25 @@ const Navbar = () => {
     };
 
     return (
-        <div className='flex items-center justify-between px-4 sm:px-10 py-3 border-b bg-white'>
+        <div className='flex items-center justify-between px-6 sm:px-10 py-4 bg-white shadow-sm sticky top-0 z-50'>
 
-            <div className='flex items-center gap-3 text-xs'>
+            <div className='flex items-center gap-4'>
 
                 <img
-                    className='w-36 sm:w-40 cursor-pointer'
+                    className='w-36 sm:w-40 cursor-pointer transition-transform duration-300 hover:scale-105'
                     src={assets.admin_logo}
-                    alt=""
+                    alt="Logo"
                 />
 
-                <p className='border px-2.5 py-0.5 rounded-full border-gray-300 text-gray-600'>
-                    {aToken ? 'Admin' : 'Doctor'}
-                </p>
+                <span className='px-3 py-1 text-xs font-medium rounded-full bg-indigo-50 text-[#5F6FFF] border border-indigo-100'>
+                    {aToken ? 'Admin Panel' : 'Doctor Panel'}
+                </span>
 
             </div>
 
             <button
                 onClick={logout}
-                className='bg-[#5F6FFF] text-white text-sm px-8 py-2 rounded-full hover:bg-[#4d5cff] transition-all'
+                className='bg-[#5F6FFF] text-white text-sm font-medium px-6 py-2.5 rounded-full hover:bg-[#4d5cff] hover:shadow-md transition-all duration-300'
             >
                 Logout
             </button>
