@@ -21,16 +21,23 @@ const DoctorAppointments = () => {
   }, [dToken]);
 
   return (
-    <div className="w-full max-w-6xl m-5">
+    <div className="w-full p-6 bg-[#FAFBFC] min-h-screen">
 
-      <p className="mb-3 text-lg font-medium">
-        All Appointments
-      </p>
+      {/* Heading */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold text-gray-800">
+          Appointments
+        </h1>
+        <p className="text-sm text-gray-500 mt-1">
+          Manage all patient appointments
+        </p>
+      </div>
 
-      <div className="bg-white border rounded-lg text-sm max-h-[80vh] overflow-y-auto">
+      {/* Table */}
+      <div className="bg-white border border-gray-100 rounded-xl overflow-hidden">
 
         {/* Header */}
-        <div className="hidden sm:grid grid-cols-[0.5fr_2fr_1fr_1fr_2fr_1fr_1fr] py-3 px-6 border-b bg-gray-50 font-medium text-gray-700">
+        <div className="hidden sm:grid grid-cols-[0.5fr_2fr_1fr_1fr_2fr_1fr_1fr] px-6 py-4 bg-gray-50 border-b border-gray-100 text-sm font-medium text-gray-600">
           <p>#</p>
           <p>Patient</p>
           <p>Payment</p>
@@ -40,9 +47,9 @@ const DoctorAppointments = () => {
           <p>Action</p>
         </div>
 
-        {/* No Data */}
+        {/* Empty State */}
         {appointments.length === 0 && (
-          <div className="text-center py-10 text-gray-500">
+          <div className="py-16 text-center text-gray-500">
             No Appointments Found
           </div>
         )}
@@ -51,80 +58,109 @@ const DoctorAppointments = () => {
         {appointments.map((item, index) => (
           <div
             key={item._id}
-            className="flex flex-wrap justify-between gap-3 sm:grid sm:grid-cols-[0.5fr_2fr_1fr_1fr_2fr_1fr_1fr] items-center py-3 px-6 border-b hover:bg-gray-50"
+            className="flex flex-wrap justify-between gap-4 sm:grid sm:grid-cols-[0.5fr_2fr_1fr_1fr_2fr_1fr_1fr] items-center px-6 py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
           >
-            <p>{index + 1}</p>
+            {/* Number */}
+            <p className="text-gray-600">
+              {index + 1}
+            </p>
 
             {/* Patient */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <img
-                className="w-8 h-8 rounded-full object-cover"
+                className="w-10 h-10 rounded-full object-cover"
                 src={item.userData?.image || assets.profile_pic}
                 alt=""
               />
-              <p>{item.userData?.name}</p>
+
+              <div>
+                <p className="font-medium text-gray-800">
+                  {item.userData?.name}
+                </p>
+              </div>
             </div>
 
             {/* Payment */}
-            <p
-              className={`text-xs border px-2 py-1 rounded-full w-fit ${
-                item.payment
-                  ? "border-green-500 text-green-600"
-                  : "border-red-500 text-red-600"
-              }`}
-            >
-              {item.payment ? "Online" : "Cash"}
-            </p>
+            <div>
+              <span
+                className={`text-xs px-3 py-1 rounded-full ${
+                  item.payment
+                    ? "bg-green-50 text-green-600"
+                    : "bg-orange-50 text-orange-600"
+                }`}
+              >
+                {item.payment ? "Online" : "Cash"}
+              </span>
+            </div>
 
             {/* Age */}
-            <p>
+            <p className="text-gray-700">
               {item.userData?.dob
                 ? calculateAge(item.userData.dob)
                 : "N/A"}
             </p>
 
             {/* Date & Time */}
-            <p>
-              {item.slotDate}, {item.slotTime}
-            </p>
+            <div>
+              <p className="text-gray-800">
+                {item.slotDate}
+              </p>
+              <p className="text-xs text-gray-500">
+                {item.slotTime}
+              </p>
+            </div>
 
             {/* Fees */}
-            <p>₹{item.amount}</p>
+            <p className="font-medium text-[#5F6FFF]">
+              ₹{item.amount}
+            </p>
 
-            {/* Action */}
+            {/* Status / Action */}
             <div>
               {item.cancelled ? (
-                <p className="text-red-500 text-xs font-medium">
+                <span className="text-xs px-3 py-1 rounded-full bg-red-50 text-red-600">
                   Cancelled
-                </p>
+                </span>
               ) : item.isCompleted ? (
-                <p className="text-green-500 text-xs font-medium">
+                <span className="text-xs px-3 py-1 rounded-full bg-green-50 text-green-600">
                   Completed
-                </p>
+                </span>
               ) : (
                 <div className="flex items-center gap-2">
-                  <img
+
+                  <button
                     onClick={() =>
                       cancelAppointment(item._id)
                     }
-                    className="w-8 cursor-pointer"
-                    src={assets.cancel_icon}
-                    alt="Cancel"
-                  />
+                    className="p-2 rounded-lg hover:bg-red-50 transition-colors"
+                  >
+                    <img
+                      className="w-5 h-5"
+                      src={assets.cancel_icon}
+                      alt=""
+                    />
+                  </button>
 
-                  <img
+                  <button
                     onClick={() =>
                       completeAppointment(item._id)
                     }
-                    className="w-8 cursor-pointer"
-                    src={assets.tick_icon}
-                    alt="Complete"
-                  />
+                    className="p-2 rounded-lg hover:bg-green-50 transition-colors"
+                  >
+                    <img
+                      className="w-5 h-5"
+                      src={assets.tick_icon}
+                      alt=""
+                    />
+                  </button>
+
                 </div>
               )}
             </div>
+
           </div>
         ))}
+
       </div>
 
     </div>

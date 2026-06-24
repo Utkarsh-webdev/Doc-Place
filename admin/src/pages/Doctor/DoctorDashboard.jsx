@@ -3,12 +3,8 @@ import { DoctorContext } from "../../context/DoctorContext";
 import { assets } from "../../assets/assets_admin/assets";
 
 const DoctorDashboard = () => {
-
-  const {
-    dToken,
-    dashData,
-    getDashData,
-  } = useContext(DoctorContext);
+  const { dToken, dashData, getDashData } =
+    useContext(DoctorContext);
 
   useEffect(() => {
     if (dToken) {
@@ -25,80 +21,114 @@ const DoctorDashboard = () => {
   }
 
   return (
-    <div className="m-5">
+    <div className="p-6 w-full bg-[#FAFBFC] min-h-screen">
 
-      {/* Stats Cards */}
+      {/* Header */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold text-gray-800">
+          Dashboard
+        </h1>
+        <p className="text-sm text-gray-500 mt-1">
+          Welcome back, Doctor 👋
+        </p>
+      </div>
+
+      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
 
-        <div className="bg-white rounded-xl p-5 border flex items-center gap-4 shadow-sm hover:shadow-md transition-all">
-          <img
-            src={assets.earning_icon}
-            alt=""
-            className="w-14"
-          />
-          <div>
-            <p className="text-2xl font-bold">
-              ₹{dashData.earnings}
-            </p>
-            <p className="text-gray-500">
-              Earnings
-            </p>
+        {/* Earnings */}
+        <div className="bg-white border border-gray-100 rounded-xl p-5 hover:border-[#5F6FFF] transition-all">
+          <div className="flex items-center gap-4">
+
+            <div className="bg-[#F5F7FF] p-3 rounded-lg">
+              <img
+                src={assets.earning_icon}
+                alt=""
+                className="w-8"
+              />
+            </div>
+
+            <div>
+              <p className="text-2xl font-semibold text-gray-800">
+                ₹{dashData.earnings}
+              </p>
+              <p className="text-sm text-gray-500">
+                Earnings
+              </p>
+            </div>
+
           </div>
         </div>
 
-        <div className="bg-white rounded-xl p-5 border flex items-center gap-4 shadow-sm hover:shadow-md transition-all">
-          <img
-            src={assets.appointments_icon}
-            alt=""
-            className="w-14"
-          />
-          <div>
-            <p className="text-2xl font-bold">
-              {dashData.appointments}
-            </p>
-            <p className="text-gray-500">
-              Appointments
-            </p>
+        {/* Appointments */}
+        <div className="bg-white border border-gray-100 rounded-xl p-5 hover:border-[#5F6FFF] transition-all">
+          <div className="flex items-center gap-4">
+
+            <div className="bg-[#F5F7FF] p-3 rounded-lg">
+              <img
+                src={assets.appointments_icon}
+                alt=""
+                className="w-8"
+              />
+            </div>
+
+            <div>
+              <p className="text-2xl font-semibold text-gray-800">
+                {dashData.appointments}
+              </p>
+              <p className="text-sm text-gray-500">
+                Appointments
+              </p>
+            </div>
+
           </div>
         </div>
 
-        <div className="bg-white rounded-xl p-5 border flex items-center gap-4 shadow-sm hover:shadow-md transition-all">
-          <img
-            src={assets.patients_icon}
-            alt=""
-            className="w-14"
-          />
-          <div>
-            <p className="text-2xl font-bold">
-              {dashData.patients}
-            </p>
-            <p className="text-gray-500">
-              Patients
-            </p>
+        {/* Patients */}
+        <div className="bg-white border border-gray-100 rounded-xl p-5 hover:border-[#5F6FFF] transition-all">
+          <div className="flex items-center gap-4">
+
+            <div className="bg-[#F5F7FF] p-3 rounded-lg">
+              <img
+                src={assets.patients_icon}
+                alt=""
+                className="w-8"
+              />
+            </div>
+
+            <div>
+              <p className="text-2xl font-semibold text-gray-800">
+                {dashData.patients}
+              </p>
+              <p className="text-sm text-gray-500">
+                Patients
+              </p>
+            </div>
+
           </div>
         </div>
 
       </div>
 
       {/* Latest Appointments */}
-      <div className="bg-white rounded-xl border mt-8 overflow-hidden">
+      <div className="bg-white border border-gray-100 rounded-xl mt-6">
 
-        <div className="flex items-center gap-3 px-5 py-4 border-b bg-gray-50">
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-gray-100">
           <img
             src={assets.list_icon}
             alt=""
             className="w-5"
           />
-          <p className="font-semibold">
+          <p className="font-medium text-gray-700">
             Latest Appointments
           </p>
         </div>
 
-        {dashData.latestAppointments?.map(
-          (item, index) => (
+        {dashData.latestAppointments?.length > 0 ? (
+          dashData.latestAppointments.map((item, index) => (
             <div
               key={index}
-              className="flex items-center justify-between px-5 py-4 border-b hover:bg-gray-50"
+              className="flex items-center justify-between px-5 py-4 border-b border-gray-100 hover:bg-gray-50 transition-colors"
             >
               <div className="flex items-center gap-3">
 
@@ -112,7 +142,7 @@ const DoctorDashboard = () => {
                 />
 
                 <div>
-                  <p className="font-medium">
+                  <p className="font-medium text-gray-800">
                     {item.userData?.name}
                   </p>
 
@@ -124,20 +154,24 @@ const DoctorDashboard = () => {
               </div>
 
               {item.cancelled ? (
-                <span className="text-red-500 text-sm">
+                <span className="text-xs px-3 py-1 rounded-full bg-red-50 text-red-600">
                   Cancelled
                 </span>
               ) : item.isCompleted ? (
-                <span className="text-green-500 text-sm">
+                <span className="text-xs px-3 py-1 rounded-full bg-green-50 text-green-600">
                   Completed
                 </span>
               ) : (
-                <span className="text-blue-500 text-sm">
+                <span className="text-xs px-3 py-1 rounded-full bg-blue-50 text-blue-600">
                   Pending
                 </span>
               )}
             </div>
-          )
+          ))
+        ) : (
+          <div className="py-10 text-center text-gray-500">
+            No appointments found
+          </div>
         )}
 
       </div>

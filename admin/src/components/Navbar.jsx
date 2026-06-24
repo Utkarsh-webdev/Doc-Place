@@ -27,28 +27,34 @@ const Navbar = () => {
     };
 
     return (
-        <div className='flex items-center justify-between px-6 sm:px-10 py-4 bg-white shadow-sm sticky top-0 z-50'>
+        <div className='sticky top-0 z-50 bg-white border-b border-gray-100'>
 
-            <div className='flex items-center gap-4'>
+            <div className='flex items-center justify-between px-6 sm:px-10 py-4'>
 
-                <img
-                    className='w-36 sm:w-40 cursor-pointer transition-transform duration-300 hover:scale-105'
-                    src={assets.admin_logo}
-                    alt="Logo"
-                />
+                {/* Logo & Role */}
+                <div className='flex items-center gap-4'>
 
-                <span className='px-3 py-1 text-xs font-medium rounded-full bg-indigo-50 text-[#5F6FFF] border border-indigo-100'>
-                    {aToken ? 'Admin Panel' : 'Doctor Panel'}
-                </span>
+                    <img
+                        className='w-36 sm:w-40 cursor-pointer'
+                        src={assets.admin_logo}
+                        alt="Logo"
+                    />
+
+                    <span className='hidden sm:flex items-center px-3 py-1 text-xs font-medium rounded-full bg-gray-50 text-gray-600 border border-gray-200'>
+                        {aToken ? 'Admin Panel' : 'Doctor Panel'}
+                    </span>
+
+                </div>
+
+                {/* Logout */}
+                <button
+                    onClick={logout}
+                    className='px-5 py-2 text-sm font-medium text-white bg-[#5F6FFF] rounded-full hover:bg-[#5263ff] transition-colors'
+                >
+                    Logout
+                </button>
 
             </div>
-
-            <button
-                onClick={logout}
-                className='bg-[#5F6FFF] text-white text-sm font-medium px-6 py-2.5 rounded-full hover:bg-[#4d5cff] hover:shadow-md transition-all duration-300'
-            >
-                Logout
-            </button>
 
         </div>
     );

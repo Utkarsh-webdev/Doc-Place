@@ -19,7 +19,6 @@ const Login = () => {
 
         try {
 
-            // Admin Login
             if (state === 'Admin') {
 
                 const { data } = await axios.post(
@@ -38,10 +37,7 @@ const Login = () => {
                     toast.error(data.message);
                 }
 
-            }
-
-            // Doctor Login
-            else {
+            } else {
 
                 const { data } = await axios.post(
                     `${backendUrl}/api/doctor/login`,
@@ -51,8 +47,6 @@ const Login = () => {
                 if (data.success) {
 
                     localStorage.setItem('dToken', data.token);
-
-                    // VERY IMPORTANT
                     setDToken(data.token);
 
                     toast.success('Doctor Login Successful');
@@ -64,8 +58,6 @@ const Login = () => {
 
         } catch (error) {
 
-            console.log(error);
-
             toast.error(
                 error.response?.data?.message ||
                 error.message
@@ -74,81 +66,103 @@ const Login = () => {
     };
 
     return (
-        <form
-            onSubmit={onSubmitHandler}
-            className="min-h-screen flex items-center justify-center bg-gray-50"
-        >
-            <div className="flex flex-col gap-4 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl text-zinc-600 text-sm shadow-lg bg-white">
+        <div className="min-h-screen bg-[#FAFBFC] flex items-center justify-center px-4">
 
-                <div className="w-full flex justify-center mb-2">
+            <form
+                onSubmit={onSubmitHandler}
+                className="w-full max-w-md bg-white border border-gray-100 rounded-2xl p-8"
+            >
+
+                {/* Logo */}
+                <div className="flex justify-center mb-6">
                     <img
-                        className="w-32"
                         src={assets.admin_logo}
                         alt=""
+                        className="w-36"
                     />
                 </div>
 
-                <p className="text-2xl font-semibold m-auto">
-                    <span className="text-blue-600">
-                        {state}
-                    </span>{" "}
-                    Login
-                </p>
+                {/* Title */}
+                <div className="text-center mb-8">
+                    <h1 className="text-2xl font-semibold text-gray-800">
+                        {state} Login
+                    </h1>
 
-                <div className="w-full">
-                    <p>Email</p>
+                    <p className="text-sm text-gray-500 mt-2">
+                        Sign in to continue
+                    </p>
+                </div>
+
+                {/* Email */}
+                <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Email Address
+                    </label>
+
                     <input
+                        type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="border border-zinc-300 rounded w-full p-2 mt-1"
-                        type="email"
-                        placeholder="Enter Email"
+                        placeholder="Enter your email"
                         required
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none focus:border-[#5F6FFF] transition-colors"
                     />
                 </div>
 
-                <div className="w-full">
-                    <p>Password</p>
+                {/* Password */}
+                <div className="mb-6">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Password
+                    </label>
+
                     <input
+                        type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="border border-zinc-300 rounded w-full p-2 mt-1"
-                        type="password"
-                        placeholder="Enter Password"
+                        placeholder="Enter your password"
                         required
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none focus:border-[#5F6FFF] transition-colors"
                     />
                 </div>
 
+                {/* Button */}
                 <button
                     type="submit"
-                    className="bg-blue-600 hover:bg-blue-700 text-white w-full py-2 rounded-md transition-all"
+                    className="w-full bg-[#5F6FFF] text-white py-3 rounded-xl font-medium hover:bg-[#5263ff] transition-colors"
                 >
                     Login
                 </button>
 
-                {state === 'Admin' ? (
-                    <p>
-                        Doctor Login?{' '}
-                        <span
-                            onClick={() => setState('Doctor')}
-                            className="text-blue-600 cursor-pointer"
-                        >
-                            Click Here
-                        </span>
-                    </p>
-                ) : (
-                    <p>
-                        Admin Login?{' '}
-                        <span
-                            onClick={() => setState('Admin')}
-                            className="text-blue-600 cursor-pointer"
-                        >
-                            Click Here
-                        </span>
-                    </p>
-                )}
-            </div>
-        </form>
+                {/* Switch Login */}
+                <div className="mt-6 text-center text-sm text-gray-600">
+
+                    {state === 'Admin' ? (
+                        <>
+                            Doctor Login?{" "}
+                            <span
+                                onClick={() => setState('Doctor')}
+                                className="text-[#5F6FFF] font-medium cursor-pointer"
+                            >
+                                Click Here
+                            </span>
+                        </>
+                    ) : (
+                        <>
+                            Admin Login?{" "}
+                            <span
+                                onClick={() => setState('Admin')}
+                                className="text-[#5F6FFF] font-medium cursor-pointer"
+                            >
+                                Click Here
+                            </span>
+                        </>
+                    )}
+
+                </div>
+
+            </form>
+
+        </div>
     );
 };
 
