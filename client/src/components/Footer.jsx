@@ -11,11 +11,11 @@ const Footer = () => {
           <img
             className="mb-5 w-40"
             src={assets.logo}
-            alt="Prescripto"
+            alt="DocTime"
           />
 
           <p className="w-full md:w-2/3 text-gray-600 leading-6">
-            Prescripto is your trusted healthcare partner, helping you
+            DocTime is your trusted healthcare partner, helping you
             connect with experienced doctors and book appointments with
             ease. Our mission is to make healthcare accessible,
             convenient, and reliable for everyone.
@@ -52,7 +52,7 @@ const Footer = () => {
 
           <ul className="flex flex-col gap-2 text-gray-600">
             <li>+91 98765 43210</li>
-            <li>support@prescripto.com</li>
+            <li>support@doctime.com</li>
             <li>Kanpur, Uttar Pradesh</li>
           </ul>
         </div>
