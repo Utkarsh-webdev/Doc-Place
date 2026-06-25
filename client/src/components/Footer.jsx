@@ -63,7 +63,7 @@ const Footer = () => {
         <hr className="my-8 border-gray-300" />
 
         <p className="py-5 text-sm text-center text-gray-500">
-          © 2026 Prescripto. All Rights Reserved.
+          © 2026 DocTime. All Rights Reserved.
         </p>
       </div>
     </footer>
